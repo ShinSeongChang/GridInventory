@@ -11,6 +11,7 @@ public class InventoryHighlgiht : MonoBehaviour
         highlighter.gameObject.SetActive(b);
     }
 
+    // 전달받은 
     public void SetSize(InventoryItem targetItem)
     {
         Vector2 size = new Vector2();
@@ -21,6 +22,11 @@ public class InventoryHighlgiht : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// 인벤토리에 놓여있는 아이템에 마우스를 갖다 대었을때 강조 효과
+    /// </summary>
+    /// <param name="targetGrid">현재 마우스가 올라간 인벤토리</param>
+    /// <param name="targetItem">인벤토리에 놓인 아이템</param>
     public void SetPosition(ItemGrid targetGrid, InventoryItem targetItem)
     {
         SetParent(targetGrid);
@@ -34,6 +40,10 @@ public class InventoryHighlgiht : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// 강조효과를 해당 인벤토리에 종속 시킨 이후에 RectTransform을 가져오는 메소드
+    /// </summary>
+    /// <param name="targetGrid">현재 마우스가 올라간 인벤토리</param>
     public void SetParent(ItemGrid targetGrid)
     {
         if(targetGrid == null)
@@ -41,9 +51,17 @@ public class InventoryHighlgiht : MonoBehaviour
             return;
         }
 
+        // 강조효과를 해당 그리드에 종속 시킨 이후에 RectTransform을 가져온다.
         highlighter.SetParent(targetGrid.GetComponent<RectTransform>());
     }
 
+    /// <summary>
+    /// 마우스에 아이템이 들려져 있을 때 강조 효과
+    /// </summary>
+    /// <param name="targetGrid">현재 마우스가 올라가 있는 아이템 인벤토리</param>
+    /// <param name="targetItem">마우스가 들고있는 아이템</param>
+    /// <param name="posX">타일의 x인덱스 값</param>
+    /// <param name="posY">타일의 y인덱스 값</param>
     public void SetPosition(ItemGrid targetGrid, InventoryItem targetItem, int posX, int posY)
     {
         Vector2 pos = targetGrid.CalculatePositionOngrid(

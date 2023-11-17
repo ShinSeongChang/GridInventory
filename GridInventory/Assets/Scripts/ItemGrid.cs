@@ -192,6 +192,7 @@ public class ItemGrid : MonoBehaviour
                     else
                     {
                         // TODO : 보호장치인가??
+                        // 현재 겹쳐지는 아이템이 인벤토리 슬롯에 존재하는 아이템과 다르다면??
                         if(overlapItem != inventoryItemSlot[posX + x, posY + y])
                         {
                             return false;

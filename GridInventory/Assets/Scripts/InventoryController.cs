@@ -126,6 +126,7 @@ public class InventoryController : MonoBehaviour
 
     private void HandleHighlight()
     {
+        // 
         Vector2Int positionOnGrid = GetTileGridPosition();
 
         if(oldPosition == positionOnGrid)
@@ -135,13 +136,15 @@ public class InventoryController : MonoBehaviour
 
         oldPosition = positionOnGrid;   
 
+        // 마우스가 아이템을 안들고 있다면
         if(selectedItem == null)
         {
+            // 마우스가 위치한 타일의 아이템 정보를 가져온다.
             itemToHighlight = selectedItemGrid.GetItem(positionOnGrid.x, positionOnGrid.y);
 
+            // 마우스 포지션의 위치에 아이템이 있다면 하이라이트 on
             if(itemToHighlight != null)
             {
-                // 마우스 포지션의 위치에 아이템이 있다면 하이라이트 on
                 inventoryHighlgiht.Show(true);
                 inventoryHighlgiht.SetSize(itemToHighlight);                
                 inventoryHighlgiht.SetPosition(selectedItemGrid, itemToHighlight);
