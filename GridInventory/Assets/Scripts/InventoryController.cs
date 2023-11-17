@@ -240,6 +240,8 @@ public class InventoryController : MonoBehaviour
     /// <param name="tileGirdPosition">현재 마우스가 위치한 타일 포지션 (Vector2Int)</param>
     private void PlaceItem(Vector2Int tileGirdPosition)
     {
+        // 아이템이 인벤토리를 벗어나는지(BoundryCheck)
+        // 아이템을 놓는 타일에 이미 아이템이 존재하는지 (OverlapCheck)를 체크 한다.
         bool complete = selectedItemGrid.PlaceItem(selectedItem, tileGirdPosition.x, tileGirdPosition.y, ref overlapItem);
 
         if (complete == true)
@@ -247,12 +249,16 @@ public class InventoryController : MonoBehaviour
             // 아이템을 내려놓았으니 선택된 아이템 해제
             selectedItem = null;
 
+            // 해당 타일에 아이템이 존재한다면
             if (overlapItem != null)
             {
+                // 내 마우스에 타일에 존재한 아이템을 올린다.
                 selectedItem = overlapItem;
+
+                // 이후 overlapItem 할당 해제
                 overlapItem = null;
 
-                // 아이템을 내려놓았으니 더이상 마우스를  못따라오게 RectTransform값 또한 null
+                // 아이템 RectTransform은 overlapItem 값으로 교체해준다.
                 itemRect = selectedItem.GetComponent<RectTransform>();
             }
         }

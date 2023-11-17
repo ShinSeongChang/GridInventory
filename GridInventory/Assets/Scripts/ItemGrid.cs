@@ -37,6 +37,10 @@ public class ItemGrid : MonoBehaviour
         // 그리드의 x 피벗위치를 0으로 하여 x축을 왼쪽부터 계산하게 한다.
         positionOnTheGrid.x = mousePosition.x - myRect.position.x;
 
+        //Debug.Log($"마우스 포지션 값 : {mousePosition.x}");
+        //Debug.Log($"계산된 값 : {positionOnTheGrid.x}");
+        //Debug.Log($"배열 형태로 만든다면 {(int)(positionOnTheGrid.x / tileSizeWidth)}");
+
         // 그리드의 y 피벗위치는 1로 상단을 축으로 계산하게 된다.
         // 그리드가 최상단에 위치한다면 그리드의 y축값은 캔버스 Height값부터 시작
         positionOnTheGrid.y = myRect.position.y - mousePosition.y;
@@ -47,6 +51,8 @@ public class ItemGrid : MonoBehaviour
         // 이후 인벤토리 1타일의 사이즈로 나눈 뒤 int형으로 변환하여 2차원 배열형태로 만들어 준다.
         tileGridPosition.x = (int)(positionOnTheGrid.x / tileSizeWidth);
         tileGridPosition.y = (int)(positionOnTheGrid.y / tileSizeHeight);
+
+        Debug.Log($"최종 값 : {tileGridPosition.x}, {tileGridPosition.y}");
 
         return tileGridPosition;
     }
@@ -72,16 +78,23 @@ public class ItemGrid : MonoBehaviour
         myRect.sizeDelta = size;
     }
 
-
-    // 아이템을 인벤토리에 정렬시키기
+    /// <summary>
+    /// 마우스가 놓일 위치에 아이템이 존재하는지 체크하는 메소드
+    /// </summary>
+    /// <param name="inventoryItem">현재 마우스가 들고있는 아이템</param>
+    /// <param name="posX">마우스가 위치한 타일 x 인덱스값</param>
+    /// <param name="posY">마우스가 위치한 타일 y 인덱스값</param>
+    /// <param name="overlapItem">마우스가 놓일 위치에 존재하는 아이템</param>
+    /// <returns></returns>
     public bool PlaceItem(InventoryItem inventoryItem, int posX, int posY, ref InventoryItem overlapItem)
     {
-        // 1칸짜리가 아닌 아이템이 크기가 벗어난채로 인벤토리에 정렬되려 하는것을 체크
+        // 인벤토리를 벗어나는 위치에 아이템이 놓이려하면 false
         if (BoundryCheck(posX, posY, inventoryItem.WIDTH, inventoryItem.HEIGHT) == false)
         {
             return false;
         }
 
+        // 아이템을 내려놓을 위치에 아이템이 존재하는지 체크
         if (OverlapCheck(posX, posY, inventoryItem.WIDTH, inventoryItem.HEIGHT, ref overlapItem) == false)
         {
             overlapItem = null;
@@ -99,7 +112,7 @@ public class ItemGrid : MonoBehaviour
 
         return true;
     }
-
+    
     /// <summary>
     /// 최종적으로 아이템을 마우스로 옮기는 상태에서 인벤토리에 내려놓는 메소드
     /// </summary>
@@ -152,20 +165,33 @@ public class ItemGrid : MonoBehaviour
         return position;
     }
 
+    /// <summary>
+    /// 아이템을 놓을 위치에 존재하는 아이템을 체크하는 메소드
+    /// </summary>
+    /// <param name="posX">마우스가 위치한 타일의 x 인덱스 값</param>
+    /// <param name="posY">마우스가 위치한 타일의 y 인덱스 값</param>
+    /// <param name="width">마우스가 들고 있는 아이템의 x크기</param>
+    /// <param name="height">마우스가 들고 있는 아이템의 y크기</param>
+    /// <param name="overlapItem">겹쳐지는(이미 놓여 있는 아이템) 아이템</param>
+    /// <returns></returns>
     private bool OverlapCheck(int posX, int posY, int width, int height, ref InventoryItem overlapItem)
-    {
+    {        
         for(int x = 0; x < width; x++)
         {
             for(int y = 0; y < height; y++)
             {
+                // 놓으려는 위치의 타일에 인벤토리 슬롯이 사용되고 있는 경우
                 if (inventoryItemSlot[posX + x, posY + y] != null)
                 {
+                    // 완전 초기, 오버랩 아이템이 null인 경우
                     if(overlapItem == null)
                     {
+                        // 겹쳐지는 아이템을 할당해준다.
                         overlapItem = inventoryItemSlot[posX + x, posY + y];
                     }
                     else
                     {
+                        // TODO : 보호장치인가??
                         if(overlapItem != inventoryItemSlot[posX + x, posY + y])
                         {
                             return false;
@@ -249,17 +275,27 @@ public class ItemGrid : MonoBehaviour
         return true;
     }
 
-    // 인벤토리를 벗어나는 위치에 아이템을 놔두는지 체크
+    /// <summary>
+    /// 아이템의 크기가 1을 초과하는 아이템이 위치하게 되는 타일 기준으로 인벤토리 슬롯을 벗어나는지 체크하는 메소드
+    /// </summary>
+    /// <param name="posX">마우스가 위치한 타일의 x 인덱스 값</param>
+    /// <param name="posY">마우스가 위치한 타일의 y 인덱스 값</param>
+    /// <param name="width">아이템의 x크기</param>
+    /// <param name="height">아이템의 y크기</param>
+    /// <returns></returns>
     public bool BoundryCheck(int posX, int posY, int width, int height)
     {
+        // 아이템이 위치할(아이템의 시작점) 타일값이 인벤토리를 벗어나는지 체크
         if(PositionCheck(posX, posY) == false)
         {
             return false;
         }
 
+        // 인덱스값은 0부터 시작, 아이템 크기는 1부터 시작
         posX += width - 1;
         posY += height - 1;
 
+        // 아이템의 끝부분이 위치하는 타일값이 인벤토리를 벗어나는지 체크
         if(PositionCheck(posX, posY) == false)
         {
             return false;
@@ -272,7 +308,7 @@ public class ItemGrid : MonoBehaviour
     {
         return inventoryItemSlot[x, y];
     }
-
+//
     public Vector2Int? FindSpaceForObject(InventoryItem itemToInsert)
     {
         // TODO : 여긴 또 왜 +1??
