@@ -3,32 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-// RequireComponent ¾îÆ®¸®ºäÆ®´Â ÇØ´ç Å¸ÀÔÀÇ ÄÄÆ÷³ÍÆ®¸¦ ÇØ´ç ¿ÀºêÁ§Æ®¿¡ Á¾¼Ó½ÃÅ²´Ù.
-// »ç¿ë¹ıÀº Å¬·¡½º »ó´Ü¿¡ ¾îÆ®¸®ºäÆ® Ãß°¡
-// ÇØ´ç ÄÄÆ÷³ÍÆ®°¡ ¾øÀ»½Ã Ãß°¡¸¦ ÇØÁÖ±âµµ ÇÏ¸ç, ÇØ´ç ÄÄÆ÷³ÍÆ®¸¦ Á¦°ÅÇÏ·ÁÇÒ½Ã °æ°í¹®±¸¸¦ º¸ÀÌ¸ç »èÁ¦ ºÒ°¡ÇÏ°Ô ÇÑ´Ù.
+// RequireComponent ì–´íŠ¸ë¦¬ë·°íŠ¸ëŠ” í•´ë‹¹ íƒ€ì…ì˜ ì»´í¬ë„ŒíŠ¸ë¥¼ í•´ë‹¹ ì˜¤ë¸Œì íŠ¸ì— ì¢…ì†ì‹œí‚¨ë‹¤.
+// ì‚¬ìš©ë²•ì€ í´ë˜ìŠ¤ ìƒë‹¨ì— ì–´íŠ¸ë¦¬ë·°íŠ¸ ì¶”ê°€
+// í•´ë‹¹ ì»´í¬ë„ŒíŠ¸ê°€ ì—†ì„ì‹œ ì¶”ê°€ë¥¼ í•´ì£¼ê¸°ë„ í•˜ë©°, í•´ë‹¹ ì»´í¬ë„ŒíŠ¸ë¥¼ ì œê±°í•˜ë ¤í• ì‹œ ê²½ê³ ë¬¸êµ¬ë¥¼ ë³´ì´ë©° ì‚­ì œ ë¶ˆê°€í•˜ê²Œ í•œë‹¤.
 [RequireComponent(typeof(ItemGrid))]
 public class GridInteract : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    // ÀÎº¥Åä¸® ÄÁÆ®·Ñ·¯´Â ¸ŞÀÎÄ«¸Ş¶ó¿¡ ÇÒ´çÇØµ×À½
+    // ì¸ë²¤í† ë¦¬ ì»¨íŠ¸ë¡¤ëŸ¬ëŠ” ë©”ì¸ì¹´ë©”ë¼ì— í• ë‹¹í•´ë’€ìŒ
     InventoryController inventoryController;
 
-    // ÇöÀç ¿ÀºêÁ§Æ®°¡ ItemGrid ½ºÅ©¸³Æ®µµ µé°íÀÖÀ½
+    // í˜„ì¬ ì˜¤ë¸Œì íŠ¸ê°€ ItemGrid ìŠ¤í¬ë¦½íŠ¸ë„ ë“¤ê³ ìˆìŒ
     ItemGrid itemGrid;
-
     private void Awake()
     {
+        // asë¥¼ í†µí•˜ì—¬ ìºì‹±í•˜ëŠ” ë¶€ë¶„ì—ì„œ ì•ˆì •ê°ì„ ë†’ì´ëŠ” ë“¯?
         inventoryController = FindObjectOfType(typeof(InventoryController)) as InventoryController;
         itemGrid = GetComponent<ItemGrid>();
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        // ¸¶¿ì½º°¡ µé¾î¿ÔÀ»¶§¸¸ ÀÎº¥Åä¸® ÄÁÆ®·Ñ·¯¿¡ ÇØ´ç ÀÎº¥Åä¸® ÇÒ´ç
+        // ë§ˆìš°ìŠ¤ê°€ ë“¤ì–´ì™”ì„ë•Œë§Œ ì¸ë²¤í† ë¦¬ ì»¨íŠ¸ë¡¤ëŸ¬ì— í•´ë‹¹ ì¸ë²¤í† ë¦¬ í• ë‹¹
         inventoryController.SelectedItemGrid = itemGrid;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        // ¸¶¿ì½º°¡ ÀÎº¥Åä¸® ³ª°¥½Ã ÇØ´ç ÀÎº¥Åä¸® ÇØÁ¦
+        // ë§ˆìš°ìŠ¤ê°€ ì¸ë²¤í† ë¦¬ ë‚˜ê°ˆì‹œ í•´ë‹¹ ì¸ë²¤í† ë¦¬ í•´ì œ
         inventoryController.SelectedItemGrid = null;
 
     }

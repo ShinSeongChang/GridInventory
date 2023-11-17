@@ -374,8 +374,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08b2af775f1a46740b1faa46e27f0fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSizeWidth: 8
-  gridSizeHeight: 8
+  gridSizeWidth: 10
+  gridSizeHeight: 10
 --- !u!114 &715179917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -755,8 +755,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08b2af775f1a46740b1faa46e27f0fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSizeWidth: 8
-  gridSizeHeight: 8
+  gridSizeWidth: 10
+  gridSizeHeight: 10
 --- !u!114 &1495111144
 MonoBehaviour:
   m_ObjectHideFlags: 0
