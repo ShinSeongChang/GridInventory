@@ -112,10 +112,15 @@ public class InventoryController : MonoBehaviour
         InsertItem(itemToInsert);
     }
 
+    /// <summary>
+    /// 인벤토리에 아이템을 추가하는 메소드
+    /// </summary>
+    /// <param name="itemToInsert"></param>
     private void InsertItem(InventoryItem itemToInsert)
     {        
         Vector2Int? posOnGrid = selectedItemGrid.FindSpaceForObject(itemToInsert);
 
+        // 전달받은 타일값이 없다면 진행못한다.
         if(posOnGrid == null)
         {
             return;
@@ -124,12 +129,27 @@ public class InventoryController : MonoBehaviour
         selectedItemGrid.PlaceItem(itemToInsert, posOnGrid.Value.x, posOnGrid.Value.y);
     }
 
+    // TODO : 아이템을 회전 시켰을때 강조효과가 한 턴 뒤늦게 회전함.
+    /// <summary>
+    /// 강조효과의 각종 행동을 정해주는 메소드
+    /// <para>
+    /// Show() => 강조효과 활성화, 비활성화
+    /// </para>
+    /// <para>
+    /// SetSize() => 강조효과의 사이즈 계산
+    /// </para> 
+    /// <para>
+    /// SetPosition() => 강조효과의 포지션 계산
+    /// </para>
+    /// </summary>
     private void HandleHighlight()
     {
-        // 
         Vector2Int positionOnGrid = GetTileGridPosition();
 
-        if(oldPosition == positionOnGrid)
+        // 23.11.20
+        // LEGACY : 주석처리해도 동작에 큰 문제는 없음
+        // 무엇을 방지하는것인지 파악이 안됨.
+        if (oldPosition == positionOnGrid)
         {
             return;
         }
@@ -145,6 +165,7 @@ public class InventoryController : MonoBehaviour
             // 마우스 포지션의 위치에 아이템이 있다면 하이라이트 on
             if(itemToHighlight != null)
             {
+                // 하이라이트 오브젝트를 활성화 하고, 사이즈를 정한뒤 포지션을 잡아준다.
                 inventoryHighlgiht.Show(true);
                 inventoryHighlgiht.SetSize(itemToHighlight);                
                 inventoryHighlgiht.SetPosition(selectedItemGrid, itemToHighlight);
@@ -157,6 +178,7 @@ public class InventoryController : MonoBehaviour
         }
         else
         {
+            // 마우스가 아이템을 들고 있는 상황, 아이템을 놓을때처럼 BoundryCheck를 통해 인벤토리창을 벗어나는것을 확인한다.
             inventoryHighlgiht.Show(selectedItemGrid.BoundryCheck(
                 positionOnGrid.x,
                 positionOnGrid.y,
@@ -234,6 +256,7 @@ public class InventoryController : MonoBehaviour
             itemRect = selectedItem.GetComponent<RectTransform>();
         }
     }
+
     /// <summary>
     /// LeftMouseButtonClick => selectedItem != null 일때
     /// <para>

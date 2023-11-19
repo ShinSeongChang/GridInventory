@@ -11,11 +11,15 @@ public class InventoryHighlgiht : MonoBehaviour
         highlighter.gameObject.SetActive(b);
     }
 
-    // 전달받은 
+    /// <summary>
+    /// 강조효과의 크기를 정해주는 메소드
+    /// </summary>
+    /// <param name="targetItem">마우스가 들고있는, 마우스가 올라간 아이템</param>
     public void SetSize(InventoryItem targetItem)
     {
         Vector2 size = new Vector2();
 
+        // 전달받은 아이템의 크기와 1타일의 사이즈를 곱하여 강조효과의 크기를 정한다.
         size.x = targetItem.WIDTH * ItemGrid.tileSizeWidth;
         size.y = targetItem.HEIGHT * ItemGrid.tileSizeHeight;
         highlighter.sizeDelta = size;
@@ -23,7 +27,7 @@ public class InventoryHighlgiht : MonoBehaviour
     }
 
     /// <summary>
-    /// 인벤토리에 놓여있는 아이템에 마우스를 갖다 대었을때 강조 효과
+    /// 강조효과의 포지션을 계산해주는 메소드
     /// </summary>
     /// <param name="targetGrid">현재 마우스가 올라간 인벤토리</param>
     /// <param name="targetItem">인벤토리에 놓인 아이템</param>

@@ -13,7 +13,12 @@ public class InventoryItem : MonoBehaviour
 
     public bool rotated = false;
 
-
+    /// <summary>
+    /// 아이템의 y 사이즈값
+    /// <para>
+    /// 물건을 회전시켰다는 신호를 받으면 x축과 y축을 뒤바꾼다.
+    /// </para>
+    /// </summary>
     public int HEIGHT
     {
         get
@@ -27,6 +32,12 @@ public class InventoryItem : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 아이템의 x 사이즈값
+    /// <para>
+    /// 물건을 회전시켰다는 신호를 받으면 x축과 y축을 뒤바꾼다.
+    /// </para>
+    /// </summary>
     public int WIDTH
     {
         get
@@ -67,6 +78,11 @@ public class InventoryItem : MonoBehaviour
         rotated = !rotated;
 
         RectTransform rectTransform = GetComponent<RectTransform>();
-        rectTransform.rotation = Quaternion.Euler(0, 0, rotated == true ? 90f : 0f);       
+        //rectTransform.rotation = Quaternion.Euler(0, 0, rotated == true ? 90f : 0f);
+
+        Vector3 targetEulerAngles = this.transform.rotation.eulerAngles;
+        targetEulerAngles.z += (90.0f);
+        rectTransform.rotation = Quaternion.Euler(targetEulerAngles);
+
     }
 }

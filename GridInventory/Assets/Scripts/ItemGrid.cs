@@ -52,7 +52,7 @@ public class ItemGrid : MonoBehaviour
         tileGridPosition.x = (int)(positionOnTheGrid.x / tileSizeWidth);
         tileGridPosition.y = (int)(positionOnTheGrid.y / tileSizeHeight);
 
-        Debug.Log($"최종 값 : {tileGridPosition.x}, {tileGridPosition.y}");
+        //Debug.Log($"최종 값 : {tileGridPosition.x}, {tileGridPosition.y}");
 
         return tileGridPosition;
     }
@@ -251,7 +251,6 @@ public class ItemGrid : MonoBehaviour
         }
     }
 
-
     /// <summary>
     /// 아이템이 인벤토리를 벗어난 위치에 놓이는지 체크
     /// </summary>
@@ -305,18 +304,30 @@ public class ItemGrid : MonoBehaviour
         return true;
     }
 
+    /// <summary>
+    /// 마우스가 가져다댄 위치의 아이템 정보를 리턴하는 메소드
+    /// </summary>
+    /// <param name="x">마우스가 위치한 타일 x의 인덱스</param>
+    /// <param name="y">마우스가 위치한 타일 y의 인덱스</param>
+    /// <returns></returns>
     internal InventoryItem GetItem(int x, int y)
     {
         return inventoryItemSlot[x, y];
     }
-//
+    
+    /// <summary>
+    /// 인벤토리 0,0 타일부터 전달받은 아이템이 들어갈수 있는지 체크하고 타일 인덱스를 return 하는 메소드
+    /// </summary>
+    /// <param name="itemToInsert">인벤토리에 들어갈 아이템</param>
+    /// <returns></returns>
     public Vector2Int? FindSpaceForObject(InventoryItem itemToInsert)
     {
-        // TODO : 여긴 또 왜 +1??
-        int height = gridSizeHeight - itemToInsert.WIDTH + 1;
-        int width = gridSizeWidth - itemToInsert.HEIGHT + 1;
+        // 인덱스 값이 0부터 시작하니 +1 안해주면 마지막 인덱스를 못읽음
+        int height = (gridSizeHeight + 1) - itemToInsert.HEIGHT;
+        int width = (gridSizeWidth + 1)  - itemToInsert.WIDTH;
 
-        for(int y = 0; y < height; y++)
+        // 인벤토리 타일 0,0 번째부터 순차적으로 체크한다.
+        for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
@@ -330,6 +341,14 @@ public class ItemGrid : MonoBehaviour
         return null;
     }
 
+    /// <summary>
+    /// 인벤토리 슬롯을 참조하여 빈공간이 있는지 체크하는 메소드
+    /// </summary>
+    /// <param name="posX">계산할 인벤토리 슬롯 타일 인덱스 X</param>
+    /// <param name="posY">계산할 인벤토리 슬롯 타일 인덱스 Y</param>
+    /// <param name="width">아이템의 사이즈 x</param>
+    /// <param name="height">아이템의 사이즈 y</param>
+    /// <returns></returns>
     private bool CheckAvailableSpace(int posX, int posY, int width, int height)
     {
         for (int x = 0; x < width; x++)
